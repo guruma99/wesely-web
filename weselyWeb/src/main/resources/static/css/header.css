@@ -1,7 +1,7 @@
 header {
 
 	width: 100%;
-	height: 110px;
+	height: 10vh;
 
 
 	border-bottom: 1px solid #ebebeb;
@@ -66,7 +66,30 @@ header {
 }
 
 
-.headerItem {
+.headerItem{
 	margin-right: 1.6rem;
 	font-size: 18px;
+}
+
+
+
+
+/* 브라우저 너비가 625px 이상일 때*/
+@media screen and (min-width: 625px){
+	.headerHamburger{
+		display: none;
+	}
+}
+
+/* 브라우저 너비가 625px 이하일 때*/
+@media screen and (max-width: 625px){
+	.loginbar{
+		display: none;
+	}
+	.headerItem{
+		display: none;
+	}
+	.headerHamburger{
+		display: block;
+	}
 }

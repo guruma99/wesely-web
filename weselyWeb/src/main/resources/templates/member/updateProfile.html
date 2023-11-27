@@ -18,109 +18,106 @@
 </head>
 
 <body>
-	<div class="wrapper">
-		<!-- 공통 header -->
-		<div th:replace="header :: header"></div>
+	<!-- 공통 header -->
+	<div th:replace="header :: header"></div>
 
-		<!-- 프로필 수정 메인폼 -->
-		<main>
+	<!-- 프로필 수정 메인폼 -->
+	<main>
 
-			<div id="update">
-				<div class="title">
-					<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+		<div id="update">
+			<div class="title">
+				<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+			</div>
+			<div class="subtitle">
+				<label style="font-size: 18px; font-weight: bold; color:  #4D54A5;">프로필 수정</label>
+				<hr>
+			</div>
+
+			<div>
+				<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
+				<div class="preview-button" id="preview-btn">
+					<img src="/images/Profile.png" class="profile-photo" alt="프로필 사진" />
 				</div>
-				<div class="subtitle">
-					<label style="font-size: 18px; font-weight: bold; color:  #4D54A5;">프로필 수정</label>
-					<hr>
-				</div>
 
-				<div>
-					<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
-					<div class="preview-button" id="preview-btn">
-						<img src="/images/Profile.png" class="profile-photo" alt="프로필 사진" />
-					</div>
+				<script>
+					var path = ""; // 경로를 저장할 변수
 
-					<script>
-						var path = ""; // 경로를 저장할 변수
+					// 사용자가 등록한 프로필 사진이 있는지 확인
+					if (프로필_사진_존재_여부) {
+						path = "등록된_프로필_사진_경로";
+					} else {
+						path = "/images/Profile.png";
+					}
 
-						// 사용자가 등록한 프로필 사진이 있는지 확인
-						if (프로필_사진_존재_여부) {
-							path = "등록된_프로필_사진_경로";
-						} else {
-							path = "/images/Profile.png";
-						}
+					// 경로 설정
+					document.querySelector(".profile-photo").src = path;
+				</script>
 
-						// 경로 설정
-						document.querySelector(".profile-photo").src = path;
-					</script>
+				<!-- 모달창 -->
+				<div class="modal-overlay" id="modal">
+					<div class="modal-window">
+						<div class="title">
+							프로필 사진 수정
+						</div>
 
-					<!-- 모달창 -->
-					<div class="modal-overlay" id="modal">
-						<div class="modal-window">
-							<div class="title">
-								프로필 사진 수정
+						<!-- 파일 선택 -->
+						<input type="file" id="upload" style="display: none;" accept="image/gif, image/png, image/jpeg">
+
+						<!-- 이미지 미리보기 div-->
+						<label for="upload">
+							<div id="image-preview" style="cursor: pointer;">
+								<img src="/images/Profile.png" alt="" class="modal-photo">
 							</div>
+						</label>
 
-							<!-- 파일 선택 -->
-							<input type="file" id="upload" style="display: none;"
-								accept="image/gif, image/png, image/jpeg">
-
-							<!-- 이미지 미리보기 div-->
-							<label for="upload">
-								<div id="image-preview" style="cursor: pointer;">
-									<img src="/images/Profile.png" alt="" class="modal-photo">
-								</div>
-							</label>
-
-							<!-- 모달 내 버튼 div -->
-							<div class="button">
-								<!-- 모달 닫기 버튼 -->
-								<input type="button" class="close-button" value="취소" />
-								<!-- 등록 버튼 -->
-								<input type="submit" id="photo_submit" value="등록" />
-							</div>
+						<!-- 모달 내 버튼 div -->
+						<div class="button">
+							<!-- 모달 닫기 버튼 -->
+							<input type="button" class="close-button" value="취소" />
+							<!-- 등록 버튼 -->
+							<input type="submit" id="photo_submit" value="등록" />
 						</div>
 					</div>
 				</div>
-
-
-
-				<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
-
-					<div class="nickName">
-						<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
-
-						<label for="nickname">닉네임</label>
-						<!-- 회원가입 시 닉네임을 설정하지 않았다면 아이디가 기본으로 보여진다!! -->
-						<input type="text" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
-						<span id="nickmessage" class="message"/>
-					</div>
-					<div class="username">
-						<label for="username">이름</label>
-						<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
-							readonly />
-					</div>
-					<div class="phone">
-						<label for="phone">전화번호</label>
-						<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
-					</div>
-					<div class="email">
-						<label for="email">이메일</label>
-						<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
-							readonly />
-					</div>
-					<div class="btn">
-						<input type="submit" class="updateBtn" value="수정 완료" />
-						<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'"
-							value="비밀번호 변경하기" style="margin-bottom: 20px;" />
-						<span class="deleteBtn" onclick="deleteMember();" style="font-size: 13px;">wesely를 탈퇴하시겠습니까?</span>
-					</div>
-				</form>
 			</div>
-		</main>
-		<!-- 공통 footer -->
-		<div th:replace="footer :: footer"></div>
-	</div>
+
+
+
+			<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
+
+				<div class="nickName">
+					<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
+
+					<label for="nickname">닉네임</label>
+					<!-- 회원가입 시 닉네임을 설정하지 않았다면 아이디가 기본으로 보여진다!! -->
+					<input type="text" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
+					<span id="nickmessage" class="message" />
+				</div>
+				<div class="username">
+					<label for="username">이름</label>
+					<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
+						readonly />
+				</div>
+				<div class="phone">
+					<label for="phone">전화번호</label>
+					<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
+				</div>
+				<div class="email">
+					<label for="email">이메일</label>
+					<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
+						readonly />
+				</div>
+				<div class="btn">
+					<input type="submit" class="updateBtn" value="수정 완료" />
+					<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'"
+						value="비밀번호 변경하기" style="margin-bottom: 20px;" />
+					<span class="deleteBtn" onclick="deleteMember();" style="font-size: 13px;">wesely를 탈퇴하시겠습니까?</span>
+				</div>
+			</form>
+		</div>
+	</main>
+	<!-- 공통 footer -->
+	<div th:replace="footer :: footer"></div>
 </body>
 
 </html>
